@@ -19,6 +19,8 @@ class MyApp extends StatelessWidget {
         // or press Run > Flutter Hot Reload in IntelliJ). Notice that the
         // counter didn't reset back to zero; the application is not restarted.
           primarySwatch: Colors.blue,
+          accentColor: Colors.blueAccent,
+          dividerColor: Colors.black,
           textSelectionColor: Colors.red
       ),
       home: const LoginPage(title: 'Login'),

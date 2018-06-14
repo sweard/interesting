@@ -14,14 +14,13 @@ class LoginPage extends StatefulWidget {
 
   final String title;
 
-
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
   TextEditingController _account;
-
+  String _errorText;
 
   @override
   void initState() {
@@ -37,49 +36,80 @@ class _LoginPageState extends State<LoginPage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            margin: const EdgeInsets.only(top: 80.0),
-            child: Image(
-              image: AssetImage('images/logo.png'),
-              width: 200.0,
-              height: 40.0,
-              fit: BoxFit.contain,
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.only(top: 96.0),
-            child: Divider(
-              color: Colors.cyanAccent,
-            ),
-          ),
-          Container(
-              alignment: Alignment.centerLeft,
-              margin: const EdgeInsets.only(left: 16.0, right: 16.0),
-              child: TextField(
-                  controller: _account,
-                  decoration: const InputDecoration(
-                      hintText: "请输入帐号",
-                      hintStyle: const TextStyle(color: Colors.lightGreen)),
-                  style: const TextStyle(color: Colors.blueGrey))),
-          Container(
-              alignment: Alignment.centerLeft,
-              margin: const EdgeInsets.only(left: 16.0, right: 16.0),
-              child: TextField(
-                  controller: _account,
-                  decoration: const InputDecoration(
-                      hintText: "请输入密码",
-                      hintStyle: const TextStyle(color: Colors.cyanAccent)),
-                  style: const TextStyle(color: Colors.blueGrey))),
-        ],
+
+    final _imageContainer = Container(
+      margin: const EdgeInsets.only(top: 80.0),
+      padding: const EdgeInsets.only(bottom: 96.0),
+      child: Image(
+        image: AssetImage('images/logo.png'),
+        width: 200.0,
+        height: 40.0,
+        fit: BoxFit.contain,
       ),
     );
+
+
+    final _accountContainer = Container(
+        alignment: Alignment.centerLeft,
+        margin: const EdgeInsets.only(left: 16.0, right: 16.0),
+        child: TextField(
+            controller: _account,
+            onChanged: (String text) {
+              setState(() {
+                if (text != "666") {
+                  _errorText = "干，写的什么玩意儿";
+                } else {
+                  _errorText = null;
+                }
+              });
+            },
+            decoration: InputDecoration(
+                hintText: "请输入帐号",
+                errorText: _errorText,
+                hintStyle: const TextStyle(color: Colors.blueAccent)),
+            style: Theme.of(context).textTheme.display1));
+
+    final _passwordContainer = Container(
+        alignment: Alignment.centerLeft,
+        margin: const EdgeInsets.only(left: 16.0, right: 16.0),
+        child: TextField(
+            controller: _account,
+            autofocus: true,
+            decoration: const InputDecoration(
+                hintText: "请输入密码",
+                hintStyle: const TextStyle(color: Colors.blueAccent)),
+            style: const TextStyle(color: Colors.blueGrey)));
+
+    final _list = ListView(
+      children: <Widget>[
+        _imageContainer,
+        _accountContainer,
+        _passwordContainer
+      ],
+    );
+
+    final _stack = Stack(
+      alignment: AlignmentDirectional.topCenter,
+      children: <Widget>[
+        _imageContainer,
+        _accountContainer,
+        _passwordContainer
+      ],
+    );
+
+    final _column = Column(
+      children: <Widget>[
+        _imageContainer,
+        _accountContainer,
+        _passwordContainer
+      ],
+    );
+
+    return Scaffold(
+        appBar: AppBar(
+          title: Text(widget.title),
+        ),
+        body: _column);
   }
 
   void _updateAccount(String account) {}
